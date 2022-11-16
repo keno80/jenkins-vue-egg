@@ -12,6 +12,11 @@ class ConfigService extends Service {
     const { model } = this.app;
     return await model.Config.findByIdAndUpdate(id, data);
   }
+
+  async delete(id) {
+    const { model } = this.app;
+    return await model.Config.findByIdAndDelete(id);
+  }
 }
 
 module.exports = ConfigService;

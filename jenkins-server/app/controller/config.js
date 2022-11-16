@@ -46,6 +46,27 @@ class ConfigController extends Controller {
       };
     }
   }
+
+  async delete() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+
+    try {
+      await this.service.config.delete(id);
+
+      ctx.body = {
+        code: RESPONSE_CODE.SUCCESS_CODE,
+        msg: '配置删除成功',
+        data: null,
+      };
+    } catch (e) {
+      ctx.body = {
+        code: RESPONSE_CODE.ERROR_CODE,
+        msg: '配置删除失败',
+        data: null,
+      };
+    }
+  }
 }
 
 module.exports = ConfigController;
