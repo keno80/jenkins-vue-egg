@@ -8,8 +8,6 @@ class ConfigController extends Controller {
     const { ctx } = this;
     const { body } = ctx.request;
 
-    console.log(body);
-
     try {
       await this.service.config.save(body);
 
@@ -22,6 +20,28 @@ class ConfigController extends Controller {
       ctx.body = {
         code: RESPONSE_CODE.ERROR_CODE,
         msg: '配置保存失败',
+        data: null,
+      };
+    }
+  }
+
+  async update() {
+    const { ctx } = this;
+    const { body } = ctx.request;
+    const { id } = ctx.params;
+
+    try {
+      await this.service.config.update(id, body);
+
+      ctx.body = {
+        code: RESPONSE_CODE.SUCCESS_CODE,
+        msg: '配置更新成功',
+        data: null,
+      };
+    } catch (e) {
+      ctx.body = {
+        code: RESPONSE_CODE.ERROR_CODE,
+        msg: '配置更新失败',
         data: null,
       };
     }

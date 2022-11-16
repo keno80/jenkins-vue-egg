@@ -3,8 +3,9 @@ exports.mongoose = {
     url: 'mongodb://127.0.0.1/jenkins?authSource=admin',
     options: {
       useUnifiedTopology: true,
-      user: 'user',
-      pass: 'pass',
+      useFindAndModify: false,
+      user: 'keno',
+      pass: 'c@kai123..',
     },
   },
 };
