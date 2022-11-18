@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, h } from 'vue'
+import { Modal } from '@arco-design/web-vue'
 import { IconPlus } from '@arco-design/web-vue/es/icon'
-import { configList, saveConfig } from '@/api'
-import tableColumn from './tableColumns'
+import { configList, saveConfig, deleteConfig } from '@/api'
+import { tableColumn } from './tableColumns'
 
 const modelVisible = ref<boolean>(false)
 const projectFormRef = ref()
@@ -19,11 +20,27 @@ const fetchConfigList = async () => {
   listData.value = await configList()
 }
 
+// 新增/保存配置
 const handleSaveConfig = async () => {
   await saveConfig(projectForm)
   projectFormRef.value.resetFields()
   fetchConfigList()
   return true
+}
+
+// 删除配置
+const handleDeleteConfig = async (id: number) => {
+  Modal.warning({
+    title: '警告',
+    content: () => h('div', { style: 'text-align: center;' }, [
+      h('span', '确定要删除该项目配置吗？')
+    ]),
+    onBeforeOk: async () => {
+      await deleteConfig(id)
+      fetchConfigList()
+      return true
+    }
+  })
 }
 
 onMounted(() => {
@@ -43,7 +60,11 @@ onMounted(() => {
       </a-button>
     </div>
 
-    <a-table :columns="tableColumn" :data="listData" />
+    <a-table :columns="tableColumn" :data="listData">
+      <template #options="{ record }">
+        <a-button type="primary" status="danger" @click="handleDeleteConfig(record._id)">删除</a-button>
+      </template>
+    </a-table>
 
     <a-modal v-model:visible="modelVisible" title="新增项目" :on-before-ok="handleSaveConfig" :mask-closable="false">
       <a-form :model="projectForm" ref="projectFormRef">

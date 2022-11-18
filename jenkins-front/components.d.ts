@@ -23,7 +23,9 @@ declare module '@vue/runtime-core' {
     AModal: typeof import('@arco-design/web-vue')['Modal']
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
     ATable: typeof import('@arco-design/web-vue')['Table']
+    ATableColumn: typeof import('@arco-design/web-vue')['TableColumn']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Modal: typeof import('./src/components/Modal/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
