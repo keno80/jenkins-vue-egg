@@ -6,15 +6,30 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'Index',
     component: Layout,
-    meta: {title: '首页'},
+    redirect: '/home',
+    meta: { title: '首页' },
     children: [
       {
         path: '/home',
         name: 'Home',
-        component: () => import('@/views/index.vue')
-      }
-    ]
-  }
+        component: () => import('@/views/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/project',
+    name: 'Project',
+    component: Layout,
+    redirect: '/project/list',
+    meta: { title: '配置列表' },
+    children: [
+      {
+        path: '/project/list',
+        name: 'ProjectList',
+        component: () => import('@/views/projectList/index.vue'),
+      },
+    ],
+  },
 ]
 
 const router = createRouter({
