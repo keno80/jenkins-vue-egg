@@ -16,7 +16,8 @@
     "paths": {
       "@": ["./src"],
       "@/views": ["./src/views"],
-      "@/router": ["./src/router"]
+      "@/router": ["./src/router"],
+      "@/Enum": ["./src/Enum"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
