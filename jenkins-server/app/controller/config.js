@@ -4,6 +4,29 @@ const { Controller } = require('egg');
 const { RESPONSE_CODE } = require('../constant');
 
 class ConfigController extends Controller {
+  async list() {
+    const { ctx } = this;
+
+    try {
+      const data = await this.service.config.list();
+
+      console.log(data);
+
+      ctx.body = {
+        code: RESPONSE_CODE.SUCCESS_CODE,
+        msg: '获取项目配置列表成功',
+        data,
+      };
+
+    } catch (e) {
+      ctx.body = {
+        code: RESPONSE_CODE.ERROR_CODE,
+        msg: '获取项目配置列表失败',
+        data: null,
+      };
+    }
+  }
+
   async save() {
     const { ctx } = this;
     const { body } = ctx.request;

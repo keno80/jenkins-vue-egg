@@ -3,6 +3,11 @@
 const { Service } = require('egg');
 
 class ConfigService extends Service {
+  async list() {
+    const { model } = this.app;
+    return await model.Config.find();
+  }
+
   async save(data) {
     const { model } = this.app;
     return await new model.Config(data).save();
