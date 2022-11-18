@@ -22,7 +22,7 @@ export const saveConfig = (data: ISaveConfig) => {
  */
 
 export const editConfig = (data: ISaveConfig) => {
-  return http.put('/config', data)
+  return http.put(`/config/${data._id}`, data)
 }
 
 /**
