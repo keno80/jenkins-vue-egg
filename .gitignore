@@ -1,3 +1,5 @@
+.idea
+
 jenkins-server/logs/
 jenkins-server/npm-debug.log
 jenkins-server/yarn-error.log
