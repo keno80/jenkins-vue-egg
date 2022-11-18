@@ -8,3 +8,12 @@ import { ISaveConfig } from './types'
 export const configList = () => {
   return http.get('/config')
 }
+
+
+/**
+ * 新增/保存项目配置
+ */
+
+ export const saveConfig = (data: ISaveConfig) => {
+  return http.post('/config', data)
+}

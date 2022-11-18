@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { IconPlus } from '@arco-design/web-vue/es/icon'
-import { configList } from '@/api'
+import { configList, saveConfig } from '@/api'
 import tableColumn from './tableColumns'
 
 const modelVisible = ref<boolean>(false)
+const projectFormRef = ref()
 const projectForm = reactive({
   projectName: '',
   gitUrl: '',
@@ -16,6 +17,13 @@ const projectForm = reactive({
 const listData = ref()
 const fetchConfigList = async () => {
   listData.value = await configList()
+}
+
+const handleSaveConfig = async () => {
+  await saveConfig(projectForm)
+  projectFormRef.value.resetFields()
+  fetchConfigList()
+  return true
 }
 
 onMounted(() => {
@@ -37,8 +45,8 @@ onMounted(() => {
 
     <a-table :columns="tableColumn" :data="listData" />
 
-    <a-modal v-model:visible="modelVisible" title="新增项目">
-      <a-form :model="projectForm">
+    <a-modal v-model:visible="modelVisible" title="新增项目" :on-before-ok="handleSaveConfig" :mask-closable="false">
+      <a-form :model="projectForm" ref="projectFormRef">
         <a-form-item field="projectName" label="项目名称：">
           <a-input v-model="projectForm.projectName" placeholder="请输入项目名称" />
         </a-form-item>
