@@ -4,7 +4,7 @@ import { Message } from '@arco-design/web-vue'
 import { StatusCodeEnum, StatusMsgEnum } from '@/Enum'
 
 const instance: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:7001',
   timeout: 30000,
 })
 
@@ -22,7 +22,7 @@ instance.interceptors.response.use(
   (response: AxiosResponse) => {
     const { code, msg, data } = response.data
 
-    if (code === 0) {
+    if (code === 200) {
       return data
     } else {
       Message.error(msg)

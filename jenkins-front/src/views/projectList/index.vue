@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { IconPlus } from '@arco-design/web-vue/es/icon'
+import { configList } from '@/api'
+import tableColumn from './tableColumns'
 
 const modelVisible = ref<boolean>(false)
 const projectForm = reactive({
@@ -9,6 +11,15 @@ const projectForm = reactive({
   gitBranch: '',
   buildCommand: '',
   uploadPath: ''
+})
+
+const listData = ref()
+const fetchConfigList = async () => {
+  listData.value = await configList()
+}
+
+onMounted(() => {
+  fetchConfigList()
 })
 
 </script>
@@ -23,6 +34,8 @@ const projectForm = reactive({
         新建项目
       </a-button>
     </div>
+
+    <a-table :columns="tableColumn" :data="listData" />
 
     <a-modal v-model:visible="modelVisible" title="新增项目">
       <a-form :model="projectForm">
@@ -46,6 +59,8 @@ const projectForm = reactive({
   </div>
 </template>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.filter-tools {
+  margin-bottom: 18px;
+}
 </style>
