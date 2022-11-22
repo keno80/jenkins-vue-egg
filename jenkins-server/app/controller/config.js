@@ -2,7 +2,7 @@
 
 const { Controller } = require('egg');
 const { RESPONSE_CODE } = require('../constant');
-const { jenkins, createJob } = require('../../jenkins');
+const { jenkins, createJob, destroyJob } = require('../../jenkins');
 
 class ConfigController extends Controller {
   async list() {
@@ -70,11 +70,34 @@ class ConfigController extends Controller {
     }
   }
 
+  async detail() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+
+    try {
+      const data = await this.service.config.detail(id);
+
+      ctx.body = {
+        code: RESPONSE_CODE.SUCCESS_CODE,
+        msg: '获取配置详情成功',
+        data,
+      };
+    } catch (e) {
+      ctx.body = {
+        code: RESPONSE_CODE.ERROR_CODE,
+        msg: '获取配置详情失败',
+        data: null,
+      };
+    }
+  }
+
   async delete() {
     const { ctx } = this;
     const { id } = ctx.params;
 
     try {
+      const { projectName } = await this.service.config.detail(id);
+      await destroyJob(projectName);
       await this.service.config.delete(id);
 
       ctx.body = {

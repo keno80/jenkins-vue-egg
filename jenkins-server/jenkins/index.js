@@ -12,6 +12,7 @@ const jenkins = new Jenkins({
   promisify: true,
 });
 
+// 新建jenkins项目
 const createJob = async config => {
   const isExist = await jenkins.job.exists(config.projectName);
   const jenkinsConfig = getXML(config);
@@ -25,7 +26,13 @@ const createJob = async config => {
   // return jenkins.job.config(config.projectName, jenkinsConfig);
 };
 
+// 删除jenkins项目
+const destroyJob = async name => {
+  return jenkins.job.destroy(name);
+};
+
 module.exports = {
   jenkins,
   createJob,
+  destroyJob,
 };
