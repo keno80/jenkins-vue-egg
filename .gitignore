@@ -16,6 +16,8 @@ jenkins-server/*.un~
 jenkins-server/typings/
 jenkins-server/.nyc_output/
 
+jenkins-server/jenkins
+
 
 jenkins-front/logs
 jenkins-front/*.log
@@ -40,3 +42,4 @@ jenkins-front/*.ntvs*
 jenkins-front/*.njsproj
 jenkins-front/*.sln
 jenkins-front/*.sw?
+jenkins-server/jenkins/index.js

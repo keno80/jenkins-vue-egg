@@ -34,7 +34,22 @@ const getXML = () => {
         <configuredLocalRules/>
       </hudson.tasks.Shell>
     </builders>
-    <publishers/>
+    <publishers>
+      <hudson.plugins.ws__cleanup.WsCleanup plugin="ws-cleanup@0.43">
+        <patterns class="empty-list"/>
+        <deleteDirs>false</deleteDirs>
+        <skipWhenFailed>false</skipWhenFailed>
+        <cleanWhenSuccess>true</cleanWhenSuccess>
+        <cleanWhenUnstable>true</cleanWhenUnstable>
+        <cleanWhenFailure>true</cleanWhenFailure>
+        <cleanWhenNotBuilt>true</cleanWhenNotBuilt>
+        <cleanWhenAborted>true</cleanWhenAborted>
+        <notFailBuild>false</notFailBuild>
+        <cleanupMatrixParent>false</cleanupMatrixParent>
+        <externalDelete/>
+        <disableDeferredWipeout>false</disableDeferredWipeout>
+      </hudson.plugins.ws__cleanup.WsCleanup>
+    </publishers>
     <buildWrappers>
       <jenkins.plugins.nodejs.NodeJSBuildWrapper plugin="nodejs@1.5.1">
         <nodeJSInstallationName>node_18.12.1</nodeJSInstallationName>
