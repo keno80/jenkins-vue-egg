@@ -1,4 +1,5 @@
 const Jenkins = require('jenkins');
+const getXML = require('./jenkinsXML');
 
 const config = {
   user: 'keno',
@@ -11,4 +12,20 @@ const jenkins = new Jenkins({
   promisify: true,
 });
 
-module.exports = jenkins;
+const createJob = async config => {
+  const isExist = await jenkins.job.exists(config.projectName);
+  const jenkinsConfig = getXML(config);
+
+  // console.log(isExist);
+
+  if (!isExist) return jenkins.job.create(config.projectName, jenkinsConfig);
+
+  return Promise.reject(new Error('项目已存在'));
+  //
+  // return jenkins.job.config(config.projectName, jenkinsConfig);
+};
+
+module.exports = {
+  jenkins,
+  createJob,
+};

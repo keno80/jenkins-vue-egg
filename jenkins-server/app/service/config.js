@@ -1,6 +1,7 @@
 'use strict';
 
 const { Service } = require('egg');
+// const jenkins = require('../../jenkins');
 
 class ConfigService extends Service {
   async list() {

@@ -2,6 +2,7 @@
 
 const { Controller } = require('egg');
 const { RESPONSE_CODE } = require('../constant');
+const { jenkins, createJob } = require('../../jenkins');
 
 class ConfigController extends Controller {
   async list() {
@@ -9,8 +10,6 @@ class ConfigController extends Controller {
 
     try {
       const data = await this.service.config.list();
-
-      console.log(data);
 
       ctx.body = {
         code: RESPONSE_CODE.SUCCESS_CODE,
@@ -32,6 +31,7 @@ class ConfigController extends Controller {
     const { body } = ctx.request;
 
     try {
+      await createJob(body);
       await this.service.config.save(body);
 
       ctx.body = {
@@ -42,7 +42,7 @@ class ConfigController extends Controller {
     } catch (e) {
       ctx.body = {
         code: RESPONSE_CODE.ERROR_CODE,
-        msg: '配置保存失败',
+        msg: e ? e.message : '配置保存失败',
         data: null,
       };
     }

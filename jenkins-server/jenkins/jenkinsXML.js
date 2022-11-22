@@ -1,21 +1,20 @@
-const getXML = () => {
-  const buildShell = 'npm --registry https://registry.npm.taobao.org install npm run build';
-  return `
+const getXML = config => {
+  const xml = `
   <project>
     <actions/>
-    <description>front</description>
+    <description>${config.projectName}</description>
     <keepDependencies>false</keepDependencies>
     <properties/>
     <scm class="hudson.plugins.git.GitSCM" plugin="git@4.13.0">
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/keno80/vite-uno-iconify.git</url>
+          <url>${config.gitUrl}</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
         <hudson.plugins.git.BranchSpec>
-          <name>*/main</name>
+          <name>*/${config.gitBranch}</name>
         </hudson.plugins.git.BranchSpec>
       </branches>
       <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -30,7 +29,7 @@ const getXML = () => {
     <concurrentBuild>false</concurrentBuild>
     <builders>
       <hudson.tasks.Shell>
-        <command>${buildShell}</command>
+        <command>${config.buildCommand}</command>
         <configuredLocalRules/>
       </hudson.tasks.Shell>
     </builders>
@@ -56,7 +55,9 @@ const getXML = () => {
         <cacheLocationStrategy class="jenkins.plugins.nodejs.cache.DefaultCacheLocationLocator"/>
       </jenkins.plugins.nodejs.NodeJSBuildWrapper>
     </buildWrappers>
-</project>`;
+  </project>`;
+
+  return xml;
 };
 
-export default getXML();
+module.exports = getXML;
