@@ -31,8 +31,13 @@ const destroyJob = async name => {
   return jenkins.job.destroy(name);
 };
 
+// 构建jenkins项目
+const buildJob = async name => {
+  return jenkins.job.build(name);
+};
+
 module.exports = {
-  jenkins,
   createJob,
   destroyJob,
+  buildJob,
 };
