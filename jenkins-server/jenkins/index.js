@@ -1,4 +1,4 @@
-import { createJenkins } from 'jenkins';
+const Jenkins = require('jenkins');
 
 const config = {
   user: 'keno',
@@ -6,9 +6,9 @@ const config = {
   instance: 'localhost:8081',
 };
 
-const jenkins = createJenkins({
+const jenkins = new Jenkins({
   baseUrl: `http://${config.user}:${config.token}@${config.instance}`,
   promisify: true,
 });
 
-export default jenkins;
+module.exports = jenkins;
