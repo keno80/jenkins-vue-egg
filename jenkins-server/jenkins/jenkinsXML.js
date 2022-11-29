@@ -29,7 +29,7 @@ const getXML = config => {
     <concurrentBuild>false</concurrentBuild>
     <builders>
       <hudson.tasks.Shell>
-        <command>${config.buildCommand}</command>
+        <command>npm --registry https://registry.npm.taobao.org install npm run build</command>
         <configuredLocalRules/>
       </hudson.tasks.Shell>
     </builders>

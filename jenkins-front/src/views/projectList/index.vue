@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, h, nextTick } from 'vue'
 import { Modal } from '@arco-design/web-vue'
-import { IconPlus } from '@arco-design/web-vue/es/icon'
-import { configList, saveConfig, deleteConfig, editConfig } from '@/api'
+import { IconPlus, IconEdit, IconDelete, IconPlayArrowFill } from '@arco-design/web-vue/es/icon'
+import { configList, saveConfig, deleteConfig, editConfig, buildProject } from '@/api'
 import { tableColumn } from './tableColumns'
 import { ISaveConfig } from '@/api/types'
 
@@ -15,7 +15,7 @@ const projectForm = ref<ISaveConfig>({
   gitUrl: '',
   gitBranch: '',
   buildCommand: '',
-  uploadPath: ''
+  uploadPath: '',
 })
 
 const listData = ref()
@@ -31,18 +31,22 @@ const handleSaveConfig = async () => {
   return true
 }
 
+// 项目构建
+const handleBuildProject = async (id: number) => {
+  await buildProject(id)
+  fetchConfigList()
+}
+
 // 删除配置
 const handleDeleteConfig = async (id: number) => {
   Modal.warning({
     title: '警告',
-    content: () => h('div', { style: 'text-align: center;' }, [
-      h('span', '确定要删除该项目配置吗？')
-    ]),
+    content: () => h('div', { style: 'text-align: center;' }, [h('span', '确定要删除该项目配置吗？')]),
     onBeforeOk: async () => {
       await deleteConfig(id)
       fetchConfigList()
       return true
-    }
+    },
   })
 }
 
@@ -62,7 +66,6 @@ const handleOpenModal = (type: number, record?: ISaveConfig) => {
 onMounted(() => {
   fetchConfigList()
 })
-
 </script>
 
 <template>
@@ -78,8 +81,24 @@ onMounted(() => {
 
     <a-table :columns="tableColumn" :data="listData">
       <template #options="{ record }">
-        <a-button type="primary" style="margin-right: 5px;" @click="handleOpenModal(1, record)">编辑</a-button>
-        <a-button type="primary" status="danger" @click="handleDeleteConfig(record._id)">删除</a-button>
+        <a-button type="primary" @click="handleOpenModal(1, record)">
+          <template #icon>
+            <IconEdit />
+          </template>
+          编辑
+        </a-button>
+        <a-button type="primary" style="margin: 0 5px" @click="handleBuildProject(record._id)">
+          <template #icon>
+            <IconPlayArrowFill />
+          </template>
+          构建
+        </a-button>
+        <a-button type="primary" status="danger" @click="handleDeleteConfig(record._id)">
+          <template #icon>
+            <IconDelete />
+          </template>
+          删除
+        </a-button>
       </template>
     </a-table>
 
@@ -95,7 +114,7 @@ onMounted(() => {
           <a-input v-model="projectForm.gitBranch" placeholder="请输入项目的Git分支" />
         </a-form-item>
         <a-form-item field="buildCommand" label="构建命令：">
-          <a-input v-model="projectForm.buildCommand" placeholder="请输入构建命令" />
+          <a-textarea v-model="projectForm.buildCommand" placeholder="请输入构建命令，使用英文逗号隔开" />
         </a-form-item>
         <a-form-item field="uploadPath" label="上传路径：">
           <a-input v-model="projectForm.uploadPath" placeholder="请输入上传路径" />

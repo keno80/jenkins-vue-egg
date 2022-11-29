@@ -13,5 +13,5 @@ module.exports = app => {
   router.delete('/config/:id', controller.config.delete);
 
   // jenkins构建接口
-  router.post('/build', controller.jenkins.build);
+  router.post('/build/:id', controller.jenkins.build);
 };

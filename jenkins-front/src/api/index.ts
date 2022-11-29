@@ -26,6 +26,14 @@ export const editConfig = (data: ISaveConfig) => {
 }
 
 /**
+ * 项目打包
+ */
+
+export const buildProject = (id: number) => {
+  return http.post(`/build/${id}`)
+}
+
+/**
  * 删除项目配置
  */
 
