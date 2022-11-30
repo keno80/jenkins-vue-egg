@@ -10,6 +10,16 @@ export const configList = () => {
 }
 
 /**
+ * 获取项目配置详情
+ */
+
+export const configDetail = (id: string) => {
+  return http.get('/config/detail', {
+    params: { id }
+  })
+}
+
+/**
  * 新增项目配置
  */
 

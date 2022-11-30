@@ -72,7 +72,7 @@ class ConfigController extends Controller {
 
   async detail() {
     const { ctx } = this;
-    const { id } = ctx.params;
+    const { id } = ctx.query;
 
     try {
       const data = await this.service.config.detail(id);
